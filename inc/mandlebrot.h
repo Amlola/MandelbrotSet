@@ -4,18 +4,30 @@
 #include <SFML/Graphics.hpp>
 #include <immintrin.h>
 #include "stdlib.h"
-#include <x86intrin.h>
 
 
-#define RUN_TEST(FUNC)                                                      \
-    uint64_t start_ticks = __rdtsc();                                       \
-        for (size_t i = 0; i < ITERATIONS; i++)                             \
-            {                                                               \
-            FUNC(set);                                                      \
-            }                                                               \
-    uint64_t end_ticks   = __rdtsc();                                       \
-    printf("CPU ticks = %ld \n", (end_ticks - start_ticks) / ITERATIONS);   \
-
+#define RUN_TEST(FUNC, mode)                                                        \
+    if (mode == 1)                                                                  \
+        {                                                                           \
+        uint64_t start_ticks = __rdtsc();                                           \
+            for (size_t i = 0; i < ITERATIONS; i++)                                 \
+                {                                                                   \
+                FUNC(set);                                                          \
+                }                                                                   \
+        uint64_t end_ticks   = __rdtsc();                                           \
+        printf("CPU ticks = %ld \n", (end_ticks - start_ticks) / ITERATIONS);       \
+        }                                                                           \
+    else                                                                            \
+        {                                                                           \
+        sf::Clock clock = {};                                                       \
+        clock.restart();                                                            \
+        for (size_t i = 0; i < ITERATIONS; i++)                                     \
+                {                                                                   \
+                FUNC(set);                                                          \
+                }                                                                   \
+        printf("time = %f sec\n", clock.getElapsedTime().asSeconds() / ITERATIONS); \
+        }                                                                           \
+                                                                                
 
 const int   MAX_ITERATIONS = 256;
 const float MAX_RADIUS     = 100.f;
@@ -63,4 +75,4 @@ void BuildingImageBySimd(MandelBrot* set);
 
 inline void GetFPS(sf::Clock &clock, sf::Text &text, MandelBrot* set);
 
-void ChooseRunTest(MandelBrot* set);
+void ChooseRunTest(MandelBrot* set, int mode_measure);

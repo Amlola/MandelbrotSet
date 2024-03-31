@@ -185,11 +185,11 @@ void BuildingImageBySimd(MandelBrot* set)
 
                 __m256 res = _mm256_cmp_ps(R2, MaxRadius, _CMP_LE_OS);
 
-                if (!_mm256_movemask_ps(res)) break;
+                if (!_mm256_movemask_ps(res)) break;                 
 
-                __m256i temp = _mm256_castps_si256(res);
-                temp = _mm256_srli_epi32(temp, 31);
-                real_count = _mm256_add_epi32(real_count, temp);
+                __m256i tmp = _mm256_castps_si256(res);
+                tmp = _mm256_srli_epi32(tmp, 31);                 
+                real_count = _mm256_add_epi32(real_count, tmp);
 
                 X_N = _mm256_sub_ps(X2, Y2);
                 X_N = _mm256_add_ps(X_N, X0);
@@ -207,25 +207,25 @@ void BuildingImageBySimd(MandelBrot* set)
 }
 
 
-void ChooseRunTest(MandelBrot* set) 
+void ChooseRunTest(MandelBrot* set, int mode_measure) 
     {
     switch (set->mode) 
         {
-        case BY_PIXELS: 
+        case BY_PIXELS:
             {
-            RUN_TEST(BuildingImageByNaive);  
+            RUN_TEST(BuildingImageByNaive, mode_measure);  
             break;
             }
 
         case BY_VECTOR: 
             {
-            RUN_TEST(BuildingImageByArray); 
+            RUN_TEST(BuildingImageByArray, mode_measure); 
             break;
             }
 
         case BY_SIMD:
             {   
-            RUN_TEST(BuildingImageBySimd);   
+            RUN_TEST(BuildingImageBySimd, mode_measure);   
             break;
             }
 
