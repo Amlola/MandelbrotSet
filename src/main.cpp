@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
         {
         sscanf(argv[1], "%d", (int*)&set.mode);
 
-        if (set.mode > 2 || set.mode < 0)
+        if (set.mode > 3 || set.mode < 1)
             {
             printf("You specified the wrong mode of rendering\n");
             return -2;

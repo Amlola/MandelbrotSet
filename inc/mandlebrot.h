@@ -43,9 +43,9 @@ const size_t ITERATIONS    = 80;
 
 enum Mode 
     {
-    BY_PIXELS  =  0,
-    BY_VECTOR  =  1,
-    BY_SIMD    =  2
+    BY_PIXELS  =  1,
+    BY_VECTOR  =  2,
+    BY_SIMD    =  3
     };
 
 
