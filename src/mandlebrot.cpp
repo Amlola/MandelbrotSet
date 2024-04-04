@@ -238,10 +238,7 @@ void ChooseRunTest(MandelBrot* set, int mode_measure)
 inline void GetPixels(MandelBrot* set,  size_t index, size_t count)
     {
     if (count != MAX_ITERATIONS)
-        {
-        count *= 100;
-        set->pixels_array[index] = 0xFF | count << 24 | count << 16 | count << 8;
-        }
+        set->pixels_array[index] = 0xFFFF00FF - (count * 3) << 2;
 
     else
         set->pixels_array[index] = 0xFF000000;
